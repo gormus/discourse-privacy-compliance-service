@@ -1,7 +1,42 @@
 {
-  "name": "discourse-privacy-compliance-service",
+  "name": "@gormus/discourse-privacy-compliance-service",
   "version": "1.0.0",
+  "private": true,
+  "description": "Discourse Privacy Compliance Service",
+  "keywords": [
+    "discourse",
+    "privacy",
+    "compliance",
+    "api",
+    "service",
+    "hono"
+  ],
+  "license": "MIT",
+  "author": {
+    "name": "Osman Gormus",
+    "email": "osman@gorm.us",
+    "url": "https://gorm.us"
+  },
+  "homepage": "https://github.com/gormus/discourse-privacy-compliance-service#readme",
+  "bugs": {
+    "url": "https://github.com/gormus/discourse-privacy-compliance-service/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gormus/discourse-privacy-compliance-service.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "tag": "latest"
+  },
   "type": "module",
+  "engines": {
+    "node": ">=24.0.0",
+    "pnpm": ">=10.0.0",
+    "npm": "Use pnpm package manager.",
+    "yarn": "Use pnpm package manager.",
+    "bun": "Use pnpm package manager."
+  },
   "scripts": {
     "prepare": "husky",
     "commitlint": "commitlint --edit",
@@ -28,5 +63,6 @@
     "tsc-alias": "^1.8.16",
     "tsx": "^4.21.0",
     "typescript": "^6.0.2"
-  }
+  },
+  "packageManager": "pnpm@10.32.1"
 }

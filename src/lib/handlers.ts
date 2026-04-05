@@ -1,5 +1,6 @@
 import type { Context } from "hono";
 import config from "@/config";
+import { customLogger } from "@/lib/utils";
 
 export const notFoundHandler = (c: Context) => {
   return c.json(
@@ -11,9 +12,11 @@ export const notFoundHandler = (c: Context) => {
 };
 
 export const errorHandler = (err: Error, c: Context) => {
+  customLogger(err);
   return c.json(
     {
-      message: err.message || "Internal Server Error",
+      message: "Internal Server Error",
+      "request-id": c.get("requestId"),
     },
     500,
   );

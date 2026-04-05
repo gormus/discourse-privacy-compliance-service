@@ -1,0 +1,81 @@
+{
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            "groups": [
+              {
+                "type": true
+              }
+            ]
+          }
+        },
+        "useSortedKeys": {
+          "level": "on",
+          "options": {
+            "sortOrder": "natural"
+          }
+        }
+      }
+    },
+    "enabled": true,
+    "includes": [
+      "**",
+      "!!.devcontainer/devcontainer.json",
+      "!package.json"
+    ]
+  },
+  "files": {
+    "ignoreUnknown": false,
+    "includes": [
+      "**",
+      "!!/prisma/generated"
+    ]
+  },
+  "formatter": {
+    "bracketSpacing": true,
+    "enabled": true,
+    "expand": "always",
+    "indentStyle": "space",
+    "useEditorconfig": true
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "double"
+    }
+  },
+  "json": {
+    "formatter": {
+      "bracketSpacing": true,
+      "expand": "always"
+    }
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "complexity": {
+        "noForEach": "error",
+        "noImplicitCoercions": "error",
+        "noUselessCatchBinding": "error",
+        "noUselessStringConcat": "error"
+      },
+      "correctness": {
+        "noGlobalDirnameFilename": "error",
+        "noProcessGlobal": "error",
+        "noUndeclaredDependencies": "error"
+      },
+      "recommended": true,
+      "suspicious": {
+        "noConsole": "error"
+      }
+    }
+  },
+  "vcs": {
+    "clientKind": "git",
+    "enabled": true,
+    "useIgnoreFile": true
+  }
+}

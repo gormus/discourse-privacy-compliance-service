@@ -1,0 +1,18 @@
+type: environment
+model: environment
+id: ev_PtJtxfKnQ9
+workspaceId: wk_9qKjppLWRJ
+createdAt: 2026-04-01T17:14:20.817738
+updatedAt: 2026-04-03T13:44:40.899638
+name: Global Variables
+public: true
+base: true
+parentModel: workspace
+parentId: null
+variables:
+- enabled: true
+  name: baseUrl
+  value: https://privacy-compliance.orb.local
+  id: AERreuxA8v
+color: null
+sortPriority: 0.0

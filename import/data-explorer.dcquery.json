@@ -1,0 +1,16 @@
+{
+  "query": {
+    "description": "This query retrieves user information by ID for the Privacy Compliance Service. Make sure to enable it for the same user group as the API key user.",
+    "name": "Privacy Compliance Service - Get User by ID",
+    "param_info": [
+      {
+        "default": null,
+        "identifier": "user_id",
+        "internal": false,
+        "nullable": false,
+        "type": "int"
+      }
+    ],
+    "sql": "-- [params]\n-- int :user_id\n\nSELECT\n    u.id,\n    u.username,\n    ue.email,\n    uaa.provider_name,\n    uaa.provider_uid,\n    u.admin,\n    u.moderator,\n    u.trust_level,\n    u.title,\n    u.primary_group_id,\n    jsonb_agg(\n        jsonb_build_object('id', gu.group_id, 'name', g.name) ORDER BY gu.group_id ASC\n    ) AS groups\n    \nFROM\n    users u\n    LEFT JOIN user_emails ue ON ue.user_id = u.id\n    LEFT JOIN user_associated_accounts uaa ON uaa.user_id = u.id\n    LEFT JOIN group_users gu ON gu.user_id = u.id\n    LEFT JOIN groups g ON g.id = gu.group_id\nWHERE\n    u.id > 0\n    AND ue.primary = TRUE\n    AND (u.id = :user_id OR :user_id IS NULL)\nGROUP BY\n    u.id,\n    u.username,\n    ue.email,\n    uaa.provider_name,\n    uaa.provider_uid,\n    u.admin,\n    u.moderator,\n    u.trust_level,\n    u.title,\n    u.primary_group_id\nLIMIT 1"
+  }
+}

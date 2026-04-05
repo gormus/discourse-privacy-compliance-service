@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "biomejs.biome",
+    "ms-ossdata.vscode-pgsql",
+    "Prisma.prisma",
+    "streetsidesoftware.code-spell-checker"
+  ]
+}

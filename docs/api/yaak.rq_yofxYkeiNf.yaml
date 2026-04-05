@@ -1,0 +1,31 @@
+type: http_request
+model: http_request
+id: rq_yofxYkeiNf
+createdAt: 2026-04-02T08:05:11.923234
+updatedAt: 2026-04-04T15:42:19.414418
+workspaceId: wk_9qKjppLWRJ
+folderId: null
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: |-
+  The GDPR deletion request is handled differently for staff, and regular users.
+
+  The request made by the regular users anonymizes their Discourse account, but preserves their contribution, as in topics, posts, reactions, etc.
+
+  The requests made for the staff accounts on the other hand are preserved as much as possible. The accounts are suspended indefinitely, the trust level downgraded to 1, stripped membership from all user groups, and finally added to a former staff user group with a matching title.
+headers: []
+method: PUT
+name: GDPR Deletion Request
+sortPriority: 1111.111111111111
+url: ${[ baseUrl ]}/api/gdpr/:userId
+urlParameters:
+- enabled: true
+  name: :userId
+  value: '13'
+  id: DuwbJZxjUH
+- enabled: true
+  name: ''
+  value: ''
+  id: fR4xtutwUT

@@ -1,16 +1,41 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "NodeNext",
-    "strict": true,
-    "verbatimModuleSyntax": true,
-    "skipLibCheck": true,
-    "types": [
-      "node"
-    ],
+    "incremental": true,
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx",
-    "outDir": "./dist"
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "outDir": "./dist",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ],
+      "@/prisma-generated/*": [
+        "./prisma/generated/*"
+      ]
+    },
+    "removeComments": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
+    "tsBuildInfoFile": "./dist/.tsbuildinfo",
+    "types": [
+      "hono",
+      "node",
+      "pg"
+    ]
   },
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    "prisma/generated"
+  ],
+  "extends": [
+    "@tsconfig/node24/tsconfig.json",
+    "@tsconfig/node-ts/tsconfig.json"
+  ],
+  "tsc-alias": {
+    "resolveDirectoryImports": true,
+    "resolveFullPaths": true
+  }
 }

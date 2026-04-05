@@ -1,0 +1,15 @@
+type: workspace
+model: workspace
+id: wk_9qKjppLWRJ
+createdAt: 2026-04-01T17:14:20.762124
+updatedAt: 2026-04-01T17:14:23.167662
+authentication: {}
+authenticationType: null
+description: ''
+headers: []
+name: Discourse Privacy Compliance Service
+encryptionKeyChallenge: eUE0azNuQwFCGap30tr/So+yVZXKgzipIaUhhosvodHgsoW7lAHXYpZBmePVHEe6vqzRgUUKFgCxDLBYdwln/lLK2Rfg07bybMfgm7SC5t+GUzRn9GcXpKPM4Ox4p9I5oGk=
+settingValidateCertificates: true
+settingFollowRedirects: true
+settingRequestTimeout: 0
+settingDnsOverrides: []

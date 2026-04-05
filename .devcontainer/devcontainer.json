@@ -1,0 +1,103 @@
+{
+  "name": "Discourse Privacy Compliance Service",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:4-24-trixie",
+  "features": {
+    "ghcr.io/itsmechlark/features/postgresql:1": {
+      "version": "16"
+    }
+  },
+  "runArgs": [
+    "--env-file",
+    "${localWorkspaceFolder}/.env",
+    "--name",
+    "privacy-compliance"
+  ],
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace/app,type=bind",
+  "workspaceFolder": "/workspace/app",
+  "remoteUser": "node",
+  "mounts": [
+    "source=${localWorkspaceFolderBasename}-node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume",
+    "source=${localWorkspaceFolderBasename}-pnpm-store,target=/home/node/.local/share/pnpm/store,type=volume"
+  ],
+  "containerEnv": {
+    "DATABASE_URL": "postgresql://postgres:postgres@localhost:5432/postgres"
+  },
+  "forwardPorts": [
+    8080,
+    5432
+  ],
+  "portsAttributes": {
+    "5432": {
+      "label": "PostgreSQL"
+    },
+    "8080": {
+      "label": "Hono framework"
+    }
+  },
+  "onCreateCommand": "sudo chown -R node:node /workspace/app/node_modules && pnpm install",
+  "postStartCommand": "pnpm dev",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "biomejs.biome",
+        "ms-ossdata.vscode-pgsql",
+        "Prisma.prisma",
+        "streetsidesoftware.code-spell-checker"
+      ],
+      "settings": {
+        "[css]": {
+          "editor.defaultFormatter": "biomejs.biome"
+        },
+        "[html]": {
+          "editor.defaultFormatter": "biomejs.biome"
+        },
+        "[javascript]": {
+          "editor.defaultFormatter": "biomejs.biome"
+        },
+        "[javascriptreact]": {
+          "editor.defaultFormatter": "biomejs.biome"
+        },
+        "[json]": {
+          "editor.defaultFormatter": "biomejs.biome"
+        },
+        "[jsonc]": {
+          "editor.defaultFormatter": "biomejs.biome"
+        },
+        "[scss]": {
+          "editor.defaultFormatter": "biomejs.biome"
+        },
+        "[typescript]": {
+          "editor.defaultFormatter": "biomejs.biome"
+        },
+        "[typescriptreact]": {
+          "editor.defaultFormatter": "biomejs.biome"
+        },
+
+        // Biome configuration
+        "biome.enabled": true,
+        "biome.configurationPath": "./biome.json",
+        "biome.lsp.trace.server": "messages",
+        "biome.requireConfiguration": true,
+        "biome.suggestInstallingGlobally": false,
+        "editor.codeActionsOnSave": {
+          "source.action.useSortedKeys.biome": "explicit",
+          "source.fixAll.biome": "explicit",
+          "source.organizeImports.biome": "explicit"
+        },
+
+        // Format on save using Biome
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": null,
+
+        // Disable other formatters to avoid conflicts
+        "eslint.enable": false,
+        "prettier.enable": false,
+
+        // Custom dictionary for spell checker
+        "cSpell.words": [
+          "dbgenerated"
+        ]
+      }
+    }
+  }
+}

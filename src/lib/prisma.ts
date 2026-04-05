@@ -1,6 +1,7 @@
 import type { Context, Next } from "hono";
 import { PrismaPg } from "@prisma/adapter-pg";
 import config from "@/config";
+import { customLogger } from "@/lib/utils";
 import { PrismaClient } from "@/prisma-generated/client";
 
 // Create singleton Prisma instance
@@ -37,8 +38,7 @@ function getPrismaClient(): PrismaClient {
 
       // biome-ignore lint/suspicious/noExplicitAny: Enable logging for query events
       (prisma as any).$on("query", (e: any) => {
-        // biome-ignore lint/suspicious/noConsole: Log query events for debugging
-        console.log(e);
+        customLogger(e);
       });
     } else {
       prisma = new PrismaClient({

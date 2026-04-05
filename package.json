@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "prepare": "husky",
+    "commitlint": "commitlint --edit",
+    "commit": "commit",
     "biome:check": "biome check --no-errors-on-unmatched",
     "biome:fix": "biome check --write --no-errors-on-unmatched",
     "dev": "tsx watch src/index.ts",
@@ -15,7 +18,11 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.10",
+    "@commitlint/cli": "^20.5.0",
+    "@commitlint/config-conventional": "^20.5.0",
+    "@commitlint/prompt-cli": "^20.5.0",
     "@types/node": "^20.11.17",
+    "husky": "^9.1.7",
     "tsx": "^4.7.1",
     "typescript": "^5.8.3"
   }

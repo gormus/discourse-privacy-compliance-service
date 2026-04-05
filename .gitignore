@@ -1,0 +1,29 @@
+# dev
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# deps
+node_modules/
+.pnpm-store/
+
+# Prisma generated files
+/prisma/generated
+
+# Node.js runtime configuration
+.npmrc
+
+# env
+.env
+.env.production
+
+# build
+dist/
+
+# logs
+logs/
+*.log
+pnpm-debug.log*
+
+# misc
+.DS_Store

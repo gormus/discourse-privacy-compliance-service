@@ -1,18 +1,36 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
+    "incremental": true,
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx",
-    "module": "NodeNext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "outDir": "./dist",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    },
+    "removeComments": true,
+    "skipDefaultLibCheck": true,
     "skipLibCheck": true,
-    "strict": true,
-    "target": "ESNext",
+    "tsBuildInfoFile": "./dist/.tsbuildinfo",
     "types": [
+      "hono",
       "node"
-    ],
-    "verbatimModuleSyntax": true
+    ]
   },
   "exclude": [
-    "node_modules"
-  ]
+    "node_modules",
+    "dist"
+  ],
+  "extends": [
+    "@tsconfig/node24/tsconfig.json",
+    "@tsconfig/node-ts/tsconfig.json"
+  ],
+  "tsc-alias": {
+    "resolveDirectoryImports": true,
+    "resolveFullPaths": true
+  }
 }

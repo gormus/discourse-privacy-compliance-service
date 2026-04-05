@@ -9,8 +9,8 @@
     "biome:check": "biome check --no-errors-on-unmatched",
     "biome:fix": "biome check --write --no-errors-on-unmatched",
     "dev": "tsx watch src/index.ts",
-    "build": "tsc",
-    "start": "node dist/index.js"
+    "build": "tsc && tsc-alias",
+    "start": "node dist/src/index.js"
   },
   "dependencies": {
     "@hono/node-server": "^1.19.12",
@@ -21,9 +21,12 @@
     "@commitlint/cli": "^20.5.0",
     "@commitlint/config-conventional": "^20.5.0",
     "@commitlint/prompt-cli": "^20.5.0",
+    "@tsconfig/node-ts": "^23.6.4",
+    "@tsconfig/node24": "^24.0.4",
     "@types/node": "^20.11.17",
     "husky": "^9.1.7",
-    "tsx": "^4.7.1",
-    "typescript": "^5.8.3"
+    "tsc-alias": "^1.8.16",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.2"
   }
 }

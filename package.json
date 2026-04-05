@@ -43,13 +43,18 @@
     "commit": "commit",
     "biome:check": "biome check --no-errors-on-unmatched",
     "biome:fix": "biome check --write --no-errors-on-unmatched",
+    "prisma:generate": "prisma generate",
     "dev": "tsx watch src/index.ts",
     "build": "tsc && tsc-alias",
     "start": "node dist/src/index.js"
   },
   "dependencies": {
     "@hono/node-server": "^1.19.12",
-    "hono": "^4.12.10"
+    "@prisma/adapter-pg": "^7.6.0",
+    "@prisma/client": "^7.6.0",
+    "hono": "^4.12.10",
+    "pg": "^8.20.0",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.10",
@@ -59,7 +64,9 @@
     "@tsconfig/node-ts": "^23.6.4",
     "@tsconfig/node24": "^24.0.4",
     "@types/node": "^20.11.17",
+    "@types/pg": "^8.20.0",
     "husky": "^9.1.7",
+    "prisma": "^7.6.0",
     "tsc-alias": "^1.8.16",
     "tsx": "^4.21.0",
     "typescript": "^6.0.2"

@@ -10,6 +10,9 @@
     "paths": {
       "@/*": [
         "./src/*"
+      ],
+      "@/prisma-generated/*": [
+        "./prisma/generated/*"
       ]
     },
     "removeComments": true,
@@ -18,12 +21,14 @@
     "tsBuildInfoFile": "./dist/.tsbuildinfo",
     "types": [
       "hono",
-      "node"
+      "node",
+      "pg"
     ]
   },
   "exclude": [
     "node_modules",
-    "dist"
+    "dist",
+    "prisma/generated"
   ],
   "extends": [
     "@tsconfig/node24/tsconfig.json",

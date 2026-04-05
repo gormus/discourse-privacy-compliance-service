@@ -1,0 +1,29 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "./generated"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum ActionType {
+  DELETED
+  ANONYMIZED
+  SUSPENDED
+  SILENCED
+  GDPR_DELETE_REQUEST
+}
+
+model PrivacyAction {
+  id             String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId         Int
+  externalUserId String?
+  actionType     ActionType
+  actionDate     DateTime   @default(now())
+
+  @@index([userId, actionType, actionDate])
+}

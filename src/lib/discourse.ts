@@ -36,7 +36,7 @@ export const getUserById = async (userId: string | number): Promise<User> => {
 export const getUserByIdCustom = async (
   userId: string | number,
 ): Promise<User | undefined> => {
-  const queryId = config.discourseGetUserByIdQueryId;
+  const queryId = config.DISCOURSE_GET_USER_BY_ID_EXPLORER_QUERY_ID;
   const queryResult = await getExplorerQueryResult(queryId, {
     user_id: userId,
   });
@@ -176,6 +176,6 @@ export const gdprProcessStaffUser = async (user: User): Promise<void> => {
   await updateUser(user, {
     title: "Former staff",
   });
-  await addUserToGroup(user, config.formerStaffGroupId);
+  await addUserToGroup(user, config.FORMER_STAFF_GROUP_ID);
   await suspendUser(user);
 };

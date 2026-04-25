@@ -3,11 +3,16 @@ import * as z from "zod";
 // Do not re-map the import path for package.json as Prisma cannot resolve the path when generating the client.
 import packageJson from "./../../package.json" with { type: "json" };
 
-// Loads environment variables from the default .env file
-loadEnvFile();
+// Loads environment variables from .env when present.
+// In staging/production, env vars are injected by the host — no .env file expected.
+try {
+  loadEnvFile();
+} catch {
+  // Intentionally silent: missing .env is normal outside local development.
+}
 
 /**
- * Schema for environment variables
+ * Schema for environment variables.
  */
 const EnvironmentSchema = z.object({
   DATABASE_URL: z
@@ -16,21 +21,26 @@ const EnvironmentSchema = z.object({
       "postgresql://postgres:postgres@localhost:5432/postgres?schema=public",
     ),
   DISCOURSE_API_HOST: z.url(),
-  DISCOURSE_API_KEY: z.string(),
-  DISCOURSE_API_USERNAME: z.string(),
+  DISCOURSE_API_KEY: z.string().min(1),
+  DISCOURSE_API_USERNAME: z.string().min(1),
   DISCOURSE_AUTH_PASSWORD: z.string().default(""),
   DISCOURSE_AUTH_USERNAME: z.string().default(""),
-  DISCOURSE_GET_USER_BY_ID_EXPLORER_QUERY_ID: z.coerce.number(),
-  FORMER_STAFF_GROUP_ID: z.coerce.number(),
-  LOG_LEVEL: z.enum([
-    "fatal",
-    "error",
-    "warn",
-    "info",
-    "debug",
-    "trace",
-    "silent",
-  ]),
+  DISCOURSE_GET_USER_BY_ID_EXPLORER_QUERY_ID: z.coerce
+    .number()
+    .int()
+    .positive(),
+  FORMER_STAFF_GROUP_ID: z.coerce.number().int().positive(),
+  LOG_LEVEL: z
+    .enum([
+      "fatal",
+      "error",
+      "warn",
+      "info",
+      "debug",
+      "trace",
+      "silent",
+    ])
+    .default("info"),
   NODE_ENV: z
     .enum([
       "development",
@@ -39,62 +49,60 @@ const EnvironmentSchema = z.object({
       "production",
     ])
     .default("development"),
-  PAGE_SIZE: z.coerce.number().optional(),
-  PORT: z.coerce.number().default(8080),
+  PAGE_SIZE: z.coerce.number().int().positive().default(20),
+  PORT: z.coerce.number().int().positive().default(8080),
   STAFF_EMAIL_DOMAINS: z.string().default(""),
 });
 
-// Parse environment variables to validate and apply defaults
 const envVars = EnvironmentSchema.safeParse(process.env);
 
-// Handle environment variable parsing errors
 if (!envVars.success) {
   const pretty = z.prettifyError(envVars.error);
-  // biome-ignore lint/suspicious/noConsole: Environment variable parsing error
-  console.error("Something went wrong with environment variables:\n\n", pretty);
+  // biome-ignore lint/suspicious/noConsole: startup validation failure
+  console.error("Environment variable validation failed:\n\n", pretty);
   process.exit(1);
 }
 
 /**
- * Schema for main configuration
+ * Schema for the derived configuration object.
+ * Extends the raw env schema with computed/aliased fields.
  */
 const ConfigSchema = EnvironmentSchema.extend({
-  discourseGetUserByIdQueryId: z.coerce.number(),
-  formerStaffGroupId: z.number(),
   isLocal: z.boolean(),
   isProduction: z.boolean(),
   isStaging: z.boolean(),
   isTesting: z.boolean(),
-  pageSize: z.number().default(20),
   staffEmailDomains: z.array(z.string()),
-  userAgent: z.string(),
+  userAgent: z.string().min(1),
 });
 
-// Construct user agent string
-const userAgent: string = `${packageJson.name}/${packageJson.version} (${packageJson.author.url})`;
+export type Config = z.infer<typeof ConfigSchema>;
 
-/**
- * Main configuration object
- */
-const config: Config = {
-  ...envVars.data,
-  discourseGetUserByIdQueryId:
-    envVars.data.DISCOURSE_GET_USER_BY_ID_EXPLORER_QUERY_ID,
-  formerStaffGroupId: envVars.data.FORMER_STAFF_GROUP_ID,
-  isLocal: envVars.data.NODE_ENV === "development",
-  isProduction: envVars.data.NODE_ENV === "production",
-  isStaging: envVars.data.NODE_ENV === "staging",
-  isTesting: envVars.data.NODE_ENV === "testing",
-  pageSize: envVars.data.PAGE_SIZE || 20,
+const env = envVars.data;
+const userAgent = `${packageJson.name}/${packageJson.version} (${packageJson.author.url})`;
+
+const configAll: Config = {
+  ...env,
+  isLocal: env.NODE_ENV === "development",
+  isProduction: env.NODE_ENV === "production",
+  isStaging: env.NODE_ENV === "staging",
+  isTesting: env.NODE_ENV === "testing",
   staffEmailDomains:
-    envVars.data.STAFF_EMAIL_DOMAINS.length > 0
-      ? envVars.data.STAFF_EMAIL_DOMAINS.split("|").map((domain) =>
-          domain.trim().toLowerCase(),
-        )
+    env.STAFF_EMAIL_DOMAINS.length > 0
+      ? env.STAFF_EMAIL_DOMAINS.split("|").map((d) => d.trim().toLowerCase())
       : [],
   userAgent,
 };
 
-export default config;
+const configParsed = ConfigSchema.safeParse(configAll);
 
-export type Config = z.infer<typeof ConfigSchema>;
+if (!configParsed.success) {
+  const pretty = z.prettifyError(configParsed.error);
+  // biome-ignore lint/suspicious/noConsole: startup validation failure
+  console.error("Configuration construction failed:\n\n", pretty);
+  process.exit(1);
+}
+
+const config: Config = configParsed.data;
+
+export default config;

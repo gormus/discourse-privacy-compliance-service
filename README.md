@@ -1,10 +1,12 @@
 # Discourse Privacy Compliance Service
 
-The GDPR deletion request is handled differently for staff, and regular users.
+A Discourse service app for handling GDPR deletion requests with role-aware logic. Regular user deletions anonymise the account while preserving contributions — topics, posts, and reactions remain intact. Staff deletions take a different path: accounts are suspended indefinitely, trust level downgraded, group memberships removed, and the account moved to a dedicated former-staff group with a matching title. This keeps the historical record coherent without leaving active credentials behind.
 
-The request made by the regular users anonymizes their Discourse account, but preserves their contribution, as in topics, posts, reactions, etc.
+- The GDPR deletion request is handled differently for staff, and regular users.
 
-The requests made for the staff accounts on the other hand are preserved as much as possible. The accounts are suspended indefinitely, the trust level downgraded to 1, stripped membership from all user groups, and finally added to a former staff user group with a matching title.
+- The request made by the regular users anonymizes their Discourse account, but preserves their contribution, as in topics, posts, reactions, etc.
+
+- The requests made for the staff accounts on the other hand are preserved as much as possible. The accounts are suspended indefinitely, the trust level downgraded to 1, stripped membership from all user groups, and finally added to a former staff user group with a matching title.
 
 ## Quickstart
 
